@@ -1,4 +1,4 @@
-import { AUTH_SUCESS } from './types';
+import { AUTH_SUCCESS } from './types';
 import { AUTH_ERROR } from './types';
 
 export const authUser = (credentials) => dispatch => {
@@ -12,7 +12,7 @@ export const authUser = (credentials) => dispatch => {
   .then(res => res.json())
   .then(user => {
     dispatch({
-      type: AUTH_SUCESS,
+      type: AUTH_SUCCESS,
       payload: user
     });
     localStorage.setItem('user', JSON.stringify(user));

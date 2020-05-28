@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
     render() {
-        const { user } = this.props;
         return (
             <div>
-                <p>Welcome back {user.name}</p>
+                <p>Welcome to Ethammy!!!</p>
+                <Link to='/login' > Login</Link>
             </div>
         )
     }
 }
 
-const mapStateToProps = state => {
-    const { user } = auth;
-  };
+const mapStateToProps = state => ({
+    user: state.auth.user
+});
 
-  export default connect(mapStateToProps, { authUser })(Home);
+export default connect(mapStateToProps, null)(Home);
 

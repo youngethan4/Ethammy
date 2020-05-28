@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { authUser } from './authActions.js'
+import { authUser } from '../../actions/authActions.js'
 
 class LoginForm extends Component {
   constructor(props) {
@@ -10,13 +10,12 @@ class LoginForm extends Component {
       username: '',
       password: ''
     };
-    this
   }
 
   onSubmit = (e) => {
     e.preventDefault();
     const credentials = {
-      username: this.state.username,
+      email: this.state.email,
       password: this.state.password
     }
 
@@ -24,11 +23,12 @@ class LoginForm extends Component {
   }
 
   onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   }
 
   render() {
-    const { error } = this.props.user;
+    const { error } = this.props;
 
     var errorMessage;
     if (error && error !== ""){
@@ -38,7 +38,16 @@ class LoginForm extends Component {
 
     return (
       <div>
+        <form onSubmit={this.onSubmit}>
+          <label for="email">Email:</label>
+          <input type="text" name="email" onChange={this.onChange}/><br/>
+          <label for="password">Password:</label>
+          <input type="text" name="password" onChange={this.onChange}/><br/>
+          <button type="submit">Log In</button>
+        </form>
+        <div>
         {errorMessage}
+        </div>
       </div>
     );
   }
@@ -49,7 +58,7 @@ LoginForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  error: state.user.error
+  error: state.auth.error
 });
 
 export default connect(mapStateToProps, { authUser })(LoginForm);

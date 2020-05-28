@@ -1,13 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { 
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
+
+import LoginForm from './pages/login';
+import HomePage from './pages/home';
+import NotFoundPage from './pages/404';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-      </header>
+    <div >
+      <Router>
+        <Switch>
+          <Route exact path='/' component={HomePage}/>
+          <Route exact path='/login' component={LoginForm}/>
+          <Route exact path='/404' component={NotFoundPage}/>
+          <Redirect to='/404'/> 
+        </Switch>
+      </Router>
     </div>
   );
 }
