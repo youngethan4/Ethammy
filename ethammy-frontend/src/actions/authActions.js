@@ -1,5 +1,4 @@
-import { AUTH_SUCCESS } from './types';
-import { AUTH_ERROR } from './types';
+import { authTypes } from './types';
 
 export const authUser = (credentials) => dispatch => {
   fetch("http://localhost:3001/api/auth", {
@@ -12,15 +11,16 @@ export const authUser = (credentials) => dispatch => {
   .then(res => res.json())
   .then(user => {
     dispatch({
-      type: AUTH_SUCCESS,
+      type: authTypes.AUTH_SUCCESS,
       payload: user
     });
     localStorage.setItem('user', JSON.stringify(user));
   },
   error => {
     dispatch({
-      type: AUTH_ERROR
-    })
+      type: authTypes.AUTH_ERROR,
+      error: "Email or password not correct"
+    });
   }
   );
 }

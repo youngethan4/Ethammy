@@ -1,13 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import LoginForm from './login.js';
+import RegisterForm from './login.js';
 
-const Login = () => {
+const Register = () => {
     return (
         <div>
-            <LoginForm />
+            <RegisterForm />
         </div>
     )
 }
 
-export default Login;
+export default Register;

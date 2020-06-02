@@ -7,9 +7,10 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import LoginForm from './pages/login';
+import Login from './pages/login';
 import HomePage from './pages/home';
 import NotFoundPage from './pages/404';
+import Register from './pages/register';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={HomePage}/>
-          <Route exact path='/login' component={LoginForm}/>
+          <Route exact path='/login' component={Login}/>
+          <Route exact path='/register' component={Register}/>
           <Route exact path='/404' component={NotFoundPage}/>
           <Redirect to='/404'/> 
         </Switch>
