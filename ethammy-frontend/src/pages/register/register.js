@@ -1,4 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { 
+    RegisterUser,
+    CheckPassword,
+    CheckPasswordMatch,
+    CheckEmail 
+} from '../../actions/registerActions.js'
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -14,14 +22,9 @@ class RegisterForm extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const registrationDetails = {
-            name: this.state.name,
-            email: this.state.email,
-            password: this.state.password,
-            confirmPassword: this.state.confirmPassword
-        }
+        var { name, email, username, password } = this.state;
     
-        this.props.registerUser(registrationDetails);
+        this.props.RegisterUser(name, email, username, password);
     }
     
     onChange = (e) => {
@@ -57,4 +60,30 @@ class RegisterForm extends Component {
     }
 }
 
-export default RegisterForm;
+RegisterForm.propTypes = {
+    RegisterUser: PropTypes.func.isRequired,
+    CheckPassword: PropTypes.func.isRequired,
+    CheckPasswordMatch: PropTypes.func.isRequired,
+    CheckEmail: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => {
+    var { registerError,  matchPasswordError, passwordError, emailError} = state.register;
+    var clickable = 
+
+    return {
+        registerError: registerError,
+        matchPasswordError: matchPasswordError,
+        passwordError: passwordError,
+        emailError: emailError
+    }
+}
+    
+);
+
+export default connect(mapStateToProps, { 
+    RegisterUser,
+    CheckPassword,
+    CheckPasswordMatch,
+    CheckEmail   
+})(RegisterForm);

@@ -1,29 +1,40 @@
 import { registerTypes } from '../actions/types';
 
 const initialState = { 
-    registered: false, 
-    errors : {
-        registerError: '',
-        matchPasswordError: '',
-        exceptingPasswordError: '',
-        emailError: ''
-    }
-} ;
+  registered: false, 
+  registerError: false,
+  matchPasswordError: false,
+  passwordError:  false,
+  emailError:  false
+};
 
 export default function(state = initialState, action) {
   switch(action.type) {
     case registerTypes.REGISTER_SUCCESS:
       return{
         ...state,
-        user: action.payload,
-        loggedIn: true,
-        error:''
+        registered: true,
       };
     case registerTypes.REGISTER_ERROR:
       return{
         ...state,
-        error: action.payload
-      } 
+        registerError: action.payload
+      };
+    case registerTypes.REGISTER_PASSWORD_ERROR:
+      return{
+        ...state,
+        passwordError: action.payload
+      };
+    case registerTypes.REGISTER_PASSWORD_MATCH_ERROR:
+      return{
+        ...state,
+        matchPasswordError: action.payload
+      };
+    case registerTypes.REGISTER_EMAIL_ERROR:
+      return{
+        ...state,
+        emailError: action.payload
+      };
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-export const verifyEmail = (email) => {
+export const VerifyEmail = (email) => {
 
 }
 
@@ -6,7 +6,7 @@ export const matchPasswords = (password, confirmPassword) => {
     return password === confirmPassword;
 }
 
-export const exceptPassword = (password) => {
+export const AcceptPassword = (password) => {
 
 }
 
