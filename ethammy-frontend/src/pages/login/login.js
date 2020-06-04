@@ -7,7 +7,7 @@ class LoginForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: ''
     };
   }
@@ -28,7 +28,7 @@ class LoginForm extends Component {
   }
 
   render() {
-    const { error } = this.props;
+    const { error, email, password } = this.props;
 
     var errorMessage;
     if (error && error !== ""){
@@ -39,10 +39,10 @@ class LoginForm extends Component {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <label for="email">Email:</label>
-          <input type="text" name="email" onChange={this.onChange}/><br/>
-          <label for="password">Password:</label>
-          <input type="text" name="password" onChange={this.onChange}/><br/>
+          <label htmlFor="email">Email:</label>
+          <input type="text" name="email" onChange={this.onChange} value={email}/><br/>
+          <label htmlFor="password">Password:</label>
+          <input type="text" name="password" onChange={this.onChange} value={password}/><br/>
           <button type="submit">Log In</button>
         </form>
         <div>
