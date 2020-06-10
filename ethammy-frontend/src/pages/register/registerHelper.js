@@ -1,35 +1,35 @@
-const blank = 'blank';
-const error = 'error';
-const accpeted = '';
+ export const BLANK =  'BLANK', ERROR = 'ERROR', ACCEPTED = '';
 
-export const CheckName = (name) => {
-    if(name === '') return blank;
-    return error;
+const CheckName = (name) => {
+    if(name === '') return BLANK;
+    return ERROR;
 
 }
 
-export const CheckEmail = (email) => {
-    if(email === '') return blank;
-    if(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) return accpeted;
-    return error;
+const CheckEmail = (email) => {
+    if(email === '') return BLANK;
+    if(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) return ACCEPTED;
+    return ERROR;
 }
 
-export const CheckUsername = (username) => {
-    if(username === '') return blank;
-    return error;
+const CheckUsername = (username) => {
+    if(username === '') return BLANK;
+    return ERROR;
 }
 
-export const CheckPassword = (password) => {
-    if(password === '') return blank;
-    return error;
+const CheckPassword = (password) => {
+    if(password === '') return BLANK;
+    return ERROR;
 }
 
-export const MatchPasswords = (password, confirmPassword) => {
-    if(confirmPassword === '') return blank;
-    if (password === confirmPassword) return accpeted;
-    else return error;
+const MatchPasswords = (password, confirmPassword) => {
+    if(confirmPassword === '') return BLANK;
+    if (password === confirmPassword) return ACCEPTED;
+    else return ERROR;
 }
 
 export const HashPassword = (password) => {
     
 }
+
+export default {CheckName, CheckEmail, CheckUsername, CheckPassword, MatchPasswords}
