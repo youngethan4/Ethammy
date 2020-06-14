@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RegisterUser } from '../../actions/registerActions.js';
 import Validate from './registerHelper.js';
 import { BLANK, ACCEPTED, ERROR } from './registerHelper.js';
-import Styles from './register.scss';
+import './register.scss';
 
 class RegisterForm extends Component {
     constructor(props) {
@@ -74,27 +74,26 @@ class RegisterForm extends Component {
         else button = <button type="submit">Create Account</button>;
 
         return (
-            <div className="registerForm">
-                <p>Create Account</p>
+            <div className="form">
                 <form onSubmit={this.onSubmit} spellCheck="false">
                     <label htmlFor="name">First Name:</label>
-                    <input className="name" type="text" name="name" onChange={this.onNameChange} value={name}/><br/>
+                    <input className="name" type="text" name="name" onChange={this.onNameChange} value={name}/>
                     {nameErrorP}
 
                     <label htmlFor="email">Email:</label>
-                    <input type="text" name="email" onChange={this.onEmailChange} value={email}/><br/>
+                    <input type="email" name="email" onChange={this.onEmailChange} value={email}/>
                     {emailErrorP}
 
                     <label htmlFor="username">Create Username:</label>
-                    <input type="text" name="username" onChange={this.onUsernameChange} value={username}/><br/>
+                    <input type="text" name="username" onChange={this.onUsernameChange} value={username}/>
                     {usernameErrorP}
 
                     <label htmlFor="password">Create Password:</label>
-                    <input type="text" name="password" onChange={this.onPasswordChange} value={password} autoComplete="off"/><br/>
+                    <input type="password" name="password" onChange={this.onPasswordChange} value={password} autoComplete="off"/>
                     {passwordErrorP}
 
                     <label htmlFor="confirmPassword">Confrim Password:</label>
-                    <input type="text" name="confirmPassword" onChange={this.onConfirmPasswordChange} value={confirmPassword} autoComplete="off"/><br/>
+                    <input type="password" name="confirmPassword" onChange={this.onConfirmPasswordChange} value={confirmPassword} autoComplete="off"/>
                     {confirmPasswordErrorP}
 
                     <button type="submit">Register</button>
