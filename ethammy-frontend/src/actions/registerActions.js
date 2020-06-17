@@ -1,34 +1,42 @@
 import { registerTypes } from './types';
 
-import { HashPassword } from '../pages/register/registerHelper.js';
+import { HashPassword } from '../helpers/passwordHash.js';
 
 export const RegisterUser = (name, email, username, password) => dispatch => {
-    var registrationDetails = {
+    let registrationDetails = {
         name: name,
         email: email,
         username: username,
         password: HashPassword(password)
     }
-    fetch("http://localhost:3001/api/register", {
+    fetch("http://173.22.77.190:3000/api/register", {
         method: 'POST',
         headers: {
             'content-type' : 'application/json'
         },
         body : JSON.stringify(registrationDetails)
     })
-    .then(res => res.json())
-    .then(user => {
-        dispatch({
-            type: registerTypes.REGISTER_SUCCESS,
-            payload: true
-        });
-        localStorage.setItem('user', JSON.stringify(user));
-    },
-    error => {
+    .then(res => {
+        if(!res.ok || res.statusText !== "OK"){
+            throw new Error("Network response problem.");
+        }
+        return res.json();
+    })
+    .then(data => {
+        if(data.success){
+            dispatch({
+                type: registerTypes.REGISTER_SUCCESS,
+                payload: true
+            });
+        } else {
+            throw new Error("Error with backend.");
+        }  
+    })
+    .catch((error) => {
+        console.error('Error:', error);
         dispatch({
             type: registerTypes.REGISTER_ERROR,
             payload: true
         });
-    }
-    );
+    });
 }

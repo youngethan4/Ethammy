@@ -24,7 +24,7 @@ const CheckPassword = (password) => {
     let lowerCase = /[a-z]/.test(password);
     let upperCase = /[A-Z]/.test(password);
     let number = /[0-9]/.test(password);
-    let special = /[!@#$%^&*]/.test(password);
+    let special = /[!@#$%^&*.,]/.test(password);
     if(lowerCase && upperCase) charTypes = true;
     if(lowerCase && number) charTypes = true;
     if(lowerCase && special) charTypes = true;
@@ -33,18 +33,14 @@ const CheckPassword = (password) => {
     if(number && special) charTypes = true;
 
     if(password === '') return BLANK;
-    else if(password.length >= 10 && !/[^a-z|0-9|!@#$%^&*]+/i.test(password) && charTypes) return ACCEPTED;
+    else if(password.length >= 10 && !/[^a-z|0-9|!@#$%^&*,.]+/i.test(password) && charTypes) return ACCEPTED;
     return ERROR;
 }
 
 const MatchPasswords = (password, confirmPassword) => {
     if(confirmPassword === '') return BLANK;
-    if (password === confirmPassword) return ACCEPTED;
+    else if (password === confirmPassword) return ACCEPTED;
     else return ERROR;
-}
-
-export const HashPassword = (password) => {
-    
 }
 
 export default {CheckName, CheckEmail, CheckUsername, CheckPassword, MatchPasswords}

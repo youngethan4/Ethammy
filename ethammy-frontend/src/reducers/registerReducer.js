@@ -3,9 +3,6 @@ import { registerTypes } from '../actions/types';
 const initialState = { 
   registered: false, 
   registerError: false,
-  matchPasswordError: false,
-  passwordError:  false,
-  emailError:  false
 };
 
 export default function(state = initialState, action) {

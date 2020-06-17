@@ -16,12 +16,8 @@ class LoginForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const credentials = {
-      email: this.state.email,
-      password: this.state.password
-    }
-
-    this.props.authUser(credentials);
+    let { email, password } = this.state;
+    this.props.authUser(email, password);
   }
 
   onChange = (e) => {
@@ -33,14 +29,11 @@ class LoginForm extends Component {
     const { error, email, password } = this.props;
 
     var errorMessage;
-    if (error && error !== ""){
-      errorMessage = 
-        <p>{ error }</p>
-    }
+    if (error && error !== "") errorMessage = <p>{ error }</p>;
 
     return (
       <div className="form">
-        <p>No account? Register <Link to='/register'>here</Link>.</p>
+        <p>No account? <Link to='/register'>register</Link></p>
         <form onSubmit={this.onSubmit}>
           <label htmlFor="email">Email:</label>
           <input type="email" name="email" onChange={this.onChange} value={email}/>

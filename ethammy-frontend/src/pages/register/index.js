@@ -1,11 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import RegisterForm from './register.js';
 
 const Register = () => {
+    let history = useHistory();
+
     return (
         <div>
-            <RegisterForm />
+            <RegisterForm history={history}/>
         </div>
     )
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { RegisterUser } from '../../actions/registerActions.js';
 import Validate from './registerHelper.js';
 import { BLANK, ACCEPTED, ERROR } from './registerHelper.js';
@@ -23,9 +24,15 @@ class RegisterForm extends Component {
         };
     }
 
+    componentDidUpdate() {
+        let { registered, history } = this.props;
+        console.log(history, registered);
+        if(registered) history.push("/login");
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
-        var { name, email, username, password } = this.state;
+        const { name, email, username, password } = this.state;
         this.props.RegisterUser(name, email, username, password);
     }
     
@@ -62,7 +69,7 @@ class RegisterForm extends Component {
     render() {
         const { name, email, username, password, confirmPassword, nameError, emailError, usernameError, passwordError, confirmPasswordError, registerError } = this.state;
         const clickable = nameError === ACCEPTED && emailError === ACCEPTED && usernameError === ACCEPTED && passwordError === ACCEPTED && confirmPasswordError === ACCEPTED;
-        var nameErrorP, emailErrorP, usernameErrorP, passwordErrorP, confirmPasswordErrorP, registerErrorP, button;
+        let nameErrorP, emailErrorP, usernameErrorP, passwordErrorP, confirmPasswordErrorP, registerErrorP, button;
         if(nameError === ERROR) nameErrorP = <p>Names can only contain letters.</p>;
         if(emailError === ERROR) emailErrorP = <p>Please make sure this is an email address.</p>;
         if(usernameError === ERROR) usernameErrorP = <p>Unsupported character in useranme.</p>;
@@ -70,11 +77,12 @@ class RegisterForm extends Component {
         if(confirmPasswordError === ERROR) confirmPasswordErrorP = <p>Passwords do not match.</p>;
         if(registerError) registerErrorP = <p>Error regiistering account. Please try again.</p>;
 
-        if(clickable) button = <button type="submit" disabled>Create Account</button>;
-        else button = <button type="submit">Create Account</button>;
+        if(clickable) button = <button type="submit">Create Account</button>;
+        else button = <button type="submit" disabled>Create Account</button>;
 
         return (
             <div className="form">
+                <p>Already have an account? <Link to='/login'>login</Link></p>
                 <form onSubmit={this.onSubmit} spellCheck="false">
                     <label htmlFor="name">First Name:</label>
                     <input className="name" type="text" name="name" onChange={this.onNameChange} value={name}/>
@@ -96,7 +104,7 @@ class RegisterForm extends Component {
                     <input type="password" name="confirmPassword" onChange={this.onConfirmPasswordChange} value={confirmPassword} autoComplete="off"/>
                     {confirmPasswordErrorP}
 
-                    <button type="submit">Register</button>
+                    {button}
 
                     {registerErrorP}
                 </form>
@@ -110,7 +118,8 @@ RegisterForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    registerError: state.register.registerError
+    registerError: state.register.registerError,
+    registered: state.register.registered
 });
 
 export default connect(mapStateToProps, { RegisterUser })(RegisterForm);
