@@ -1,0 +1,79 @@
+@import "./colors.scss";
+
+.form {
+    margin: 0 auto;
+    max-width: 500px;
+    width: 90%;
+
+    p{
+        color: black;
+        padding-left: 50px;
+        margin: 0;
+    }
+
+    form{
+        text-align: center;
+        border-radius: 10px;
+        font-size: $formFont;
+        display: grid;
+        grid-template-columns: 40% auto;
+    
+        input{
+            border-bottom: 2px solid $primaryColor;
+            border-top: 0;
+            border-right: 0;
+            border-left: 0;
+            background-color: inherit;
+            width: 90%;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: $formFont;
+            grid-column: 2;
+            &:focus{
+                outline: none;
+                border-bottom: 2px solid #cb2af3;
+            }
+        }
+        p{
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 0;
+            margin: 0;
+            color: $errorColor;
+            font-size: $errorFont;
+            font-weight: normal;
+            grid-column: 1/-1;
+        }
+        button{
+            text-decoration: none;
+            background-color: white;
+            border-bottom: 0;
+            border-left: 0;
+            border-right: 0;
+            margin-top: 20px;
+            padding: 5px;
+            width: 60%;
+            font-size: 1.5rem;
+            border: 2px solid $primaryColor;
+            grid-column: 1/-1;
+            justify-self: center;
+            &:hover{
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            &:disabled{
+                cursor: default;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            &:focus{
+                outline: none;
+            }
+        }
+        label{
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            grid-column: 1;
+        }
+    }
+}
