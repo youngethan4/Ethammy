@@ -1,29 +1,15 @@
 import { registerTypes } from './types';
-
 import { HashPassword } from '../helpers/passwordHash.js';
+import { APIRegister } from '../helpers/api';
 
-export const RegisterUser = (name, email, username, password) => dispatch => {
+export const RegisterUser = (details) => dispatch => {
     let registrationDetails = {
-        name: name,
-        email: email,
-        username: username,
-        password: HashPassword(password)
+        ...details,
+        password: HashPassword(details.password)
     }
-    fetch("http://173.22.77.190:3000/api/register", {
-        method: 'POST',
-        headers: {
-            'content-type' : 'application/json'
-        },
-        body : JSON.stringify(registrationDetails)
-    })
-    .then(res => {
-        if(!res.ok || res.statusText !== "OK"){
-            throw new Error("Network response problem.");
-        }
-        return res.json();
-    })
+    return APIRegister(registrationDetails)
     .then(data => {
-        if(data.success){
+        if(data.status === 200){
             dispatch({
                 type: registerTypes.REGISTER_SUCCESS,
                 payload: true
@@ -33,7 +19,6 @@ export const RegisterUser = (name, email, username, password) => dispatch => {
         }  
     })
     .catch((error) => {
-        console.error('Error:', error);
         dispatch({
             type: registerTypes.REGISTER_ERROR,
             payload: true

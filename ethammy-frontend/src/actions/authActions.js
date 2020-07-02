@@ -1,35 +1,32 @@
 import { authTypes } from './types';
-import { HashPassword } from '../helpers/passwordHash.js'
+import { HashPassword } from '../helpers/passwordHash'
+import { APIAuth } from '../helpers/api'
 
-export const authUser = (email, password) => dispatch => {
+export const AuthUser = (email, password) => dispatch => {
   const credentials = {
     email: email,
-    username: HashPassword(password)
+    password: HashPassword(password)
   }
-  fetch("http://173.22.77.190:3000/api/auth", {
-    method: 'POST',
-    headers: {
-      'content-type' : 'application/json'
-    },
-    body : JSON.stringify(credentials)
-  })
+  
+  return APIAuth(credentials)
   .then(res => {
-    if(!res.ok || res.statusText !== "OK"){
-        throw new Error("Network response problem.");
+    console.log(res);
+    if(res.status === 200){
+      dispatch({
+        type: authTypes.AUTH_SUCCESS,
+        payload: true,
+        user : res.data
+      });
+      localStorage.setItem('user', JSON.stringify(res.data));
+    } else {
+      throw new Error();
     }
-    return res.json();
-  })
-  .then(user => {
-    dispatch({
-      type: authTypes.AUTH_SUCCESS,
-      payload: user
-    });
-    localStorage.setItem('user', JSON.stringify(user));
   })
   .catch((error) => {
+    console.error(error);
     dispatch({
       type: authTypes.AUTH_ERROR,
-      error: "Email or password not correct"
+      error: "Invalid email or password."
     });
   });
 }

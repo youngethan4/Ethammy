@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { authUser } from '../../actions/authActions.js'
+import { AuthUser } from '../../actions/authActions.js'
 import './login.scss';
 
 class LoginForm extends Component {
@@ -17,7 +17,7 @@ class LoginForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
     let { email, password } = this.state;
-    this.props.authUser(email, password);
+    this.props.AuthUser(email, password);
   }
 
   onChange = (e) => {
@@ -48,11 +48,11 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  authUser: PropTypes.func.isRequired
+  AuthUser: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   error: state.auth.error
 });
 
-export default connect(mapStateToProps, { authUser })(LoginForm);
+export default connect(mapStateToProps, { AuthUser })(LoginForm);

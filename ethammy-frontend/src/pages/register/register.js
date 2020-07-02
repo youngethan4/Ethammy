@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { RegisterUser } from '../../actions/registerActions.js';
 import Validate from './registerHelper.js';
 import { BLANK, ACCEPTED, ERROR } from './registerHelper.js';
@@ -33,7 +33,12 @@ class RegisterForm extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const { name, email, username, password } = this.state;
-        this.props.RegisterUser(name, email, username, password);
+        this.props.RegisterUser({
+            name: name, 
+            email: email, 
+            username: username,
+            password: password
+        });
     }
     
     onChange = (e) => {
