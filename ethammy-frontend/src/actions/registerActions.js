@@ -3,6 +3,10 @@ import { HashPassword } from '../helpers/passwordHash.js';
 import { APIRegister } from '../helpers/api';
 
 export const RegisterUser = (details) => dispatch => {
+    dispatch({
+        type: registerTypes.REGISTER_REGISTERING,
+        payload: true
+    })
     let registrationDetails = {
         ...details,
         password: HashPassword(details.password)

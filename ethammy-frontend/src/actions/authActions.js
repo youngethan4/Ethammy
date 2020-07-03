@@ -3,6 +3,11 @@ import { HashPassword } from '../helpers/passwordHash'
 import { APIAuth } from '../helpers/api'
 
 export const AuthUser = (email, password) => dispatch => {
+  dispatch({
+    type: authTypes.AUTH_AUTHENTICATING,
+    payload: true
+  })
+
   const credentials = {
     email: email,
     password: HashPassword(password)
@@ -10,7 +15,6 @@ export const AuthUser = (email, password) => dispatch => {
   
   return APIAuth(credentials)
   .then(res => {
-    console.log(res);
     if(res.status === 200){
       dispatch({
         type: authTypes.AUTH_SUCCESS,
@@ -23,10 +27,9 @@ export const AuthUser = (email, password) => dispatch => {
     }
   })
   .catch((error) => {
-    console.error(error);
     dispatch({
       type: authTypes.AUTH_ERROR,
-      error: "Invalid email or password."
+      payload: "Invalid email or password."
     });
   });
 }

@@ -25,8 +25,11 @@ const mockAuthResponse = {
     }
 };
 const errorActions = [{
+    type: authTypes.AUTH_AUTHENTICATING,
+    payload: true
+},{
     type: authTypes.AUTH_ERROR,
-    error: "Invalid email or password."
+    payload: "Invalid email or password."
 }];
 let store;
 
@@ -44,6 +47,9 @@ describe('Register actions tests', () => {
         fetch.once(JSON.stringify(mockAuthResponse));
         
         const expectedActions = [{
+            type: authTypes.AUTH_AUTHENTICATING,
+            payload: true
+        },{
             type: authTypes.AUTH_SUCCESS,
             payload: true,
             user : {

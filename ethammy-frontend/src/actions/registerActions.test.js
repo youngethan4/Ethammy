@@ -12,20 +12,22 @@ const mockRegistration = {
     password: 'testing123'
 };
 const errorActions = [{
+    type: registerTypes.REGISTER_REGISTERING,
+    payload: true
+},
+{
     type: registerTypes.REGISTER_ERROR,
     payload: true
 }];
-let store = mockStore({
-    registered: false, 
-    registerError: false,
-});
+let store;
 
 
 describe('Register actions tests', () => {
-    afterEach(() => {
+    beforeEach(() => {
         fetch.resetMocks();
         store = mockStore({
             registered: false, 
+            registering: false,
             registerError: false,
         });
     });
@@ -34,6 +36,10 @@ describe('Register actions tests', () => {
         fetch.once(JSON.stringify({status: 200}));
 
         const expectedActions = [{
+            type: registerTypes.REGISTER_REGISTERING,
+            payload: true
+        },
+        {
             type: registerTypes.REGISTER_SUCCESS,
             payload: true
         }];
