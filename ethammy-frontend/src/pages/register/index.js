@@ -7,6 +7,7 @@ const Register = () => {
 
     return (
         <div>
+            <p>Register for an account.</p>
             <RegisterForm history={history}/>
         </div>
     )

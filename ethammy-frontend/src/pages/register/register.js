@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RegisterUser } from '../../actions/registerActions.js';
 import Validate from './registerHelper.js';
-import { BLANK, ACCEPTED, ERROR } from './registerHelper.js';
+import * as constant from '../../constants/register';
 import './register.scss';
 
 class RegisterForm extends Component {
@@ -16,17 +16,24 @@ class RegisterForm extends Component {
             username: '',
             password: '',
             confirmPassword: '',
-            nameError: BLANK,
-            emailError: BLANK,
-            usernameError: BLANK,
-            passwordError: BLANK,
-            confirmPasswordError: BLANK
+            nameError: constant.BLANK,
+            emailError: constant.BLANK,
+            usernameError: constant.BLANK,
+            passwordError: constant.BLANK,
+            confirmPasswordError: constant.BLANK
         };
     }
 
     componentDidUpdate() {
+        this.checkRegistered();
+    }
+
+    componentDidMount() {
+        this.checkRegistered();
+    }
+
+    checkRegistered = () => {
         let { registered, history } = this.props;
-        console.log(history, registered);
         if(registered) history.push("/login");
     }
 
@@ -72,41 +79,43 @@ class RegisterForm extends Component {
     }
 
     render() {
-        const { name, email, username, password, confirmPassword, nameError, emailError, usernameError, passwordError, confirmPasswordError, registerError } = this.state;
-        const clickable = nameError === ACCEPTED && emailError === ACCEPTED && usernameError === ACCEPTED && passwordError === ACCEPTED && confirmPasswordError === ACCEPTED;
-        let nameErrorP, emailErrorP, usernameErrorP, passwordErrorP, confirmPasswordErrorP, registerErrorP, button;
-        if(nameError === ERROR) nameErrorP = <p>Names can only contain letters.</p>;
-        if(emailError === ERROR) emailErrorP = <p>Please make sure this is an email address.</p>;
-        if(usernameError === ERROR) usernameErrorP = <p>Unsupported character in useranme.</p>;
-        if(passwordError === ERROR) passwordErrorP = <p>Passwords must be at least 10 characters with 2 character types. Character types are uppercase letters, lowercase letters, numbers, and special characters.</p>;
-        if(confirmPasswordError === ERROR) confirmPasswordErrorP = <p>Passwords do not match.</p>;
-        if(registerError) registerErrorP = <p>Error regiistering account. Please try again.</p>;
+        const { name, email, username, password, confirmPassword, nameError, emailError, usernameError, passwordError, confirmPasswordError } = this.state;
+        const { registerError } = this.props;
 
-        if(clickable) button = <button type="submit">Create Account</button>;
+        let nameErrorP, emailErrorP, usernameErrorP, passwordErrorP, confirmPasswordErrorP, registerErrorP, button;
+        if(nameError === constant.ERROR) nameErrorP = <p>{constant.nameErrorMsg}</p>;
+        if(emailError === constant.ERROR) emailErrorP = <p>{constant.emailErrorMsg}</p>;
+        if(usernameError === constant.ERROR) usernameErrorP = <p>{constant.usernameErrorMsg}</p>;
+        if(passwordError === constant.ERROR) passwordErrorP = <p>{constant.passErrorMsg}</p>;
+        if(confirmPasswordError === constant.ERROR) confirmPasswordErrorP = <p>{constant.passMatchErrorMsg}</p>;
+        if(registerError) registerErrorP = <p>{constant.registerErrorMsg}</p>;
+
+        const clickable = nameError === constant.ACCEPTED && emailError === constant.ACCEPTED && usernameError === constant.ACCEPTED && passwordError === constant.ACCEPTED && confirmPasswordError === constant.ACCEPTED;
+        if(clickable) button = <button type="submit" onClick={this.onSubmit}>Create Account</button>;
         else button = <button type="submit" disabled>Create Account</button>;
 
         return (
             <div className="form">
                 <p>Already have an account? <Link to='/login'>login</Link></p>
-                <form onSubmit={this.onSubmit} spellCheck="false">
+                <form spellCheck="false">
                     <label htmlFor="name">First Name:</label>
-                    <input className="name" type="text" name="name" onChange={this.onNameChange} value={name}/>
+                    <input className="name" type="text" id="name" name="name" onChange={this.onNameChange} value={name}/>
                     {nameErrorP}
 
                     <label htmlFor="email">Email:</label>
-                    <input type="email" name="email" onChange={this.onEmailChange} value={email}/>
+                    <input type="email" id="email" name="email" onChange={this.onEmailChange} value={email}/>
                     {emailErrorP}
 
                     <label htmlFor="username">Create Username:</label>
-                    <input type="text" name="username" onChange={this.onUsernameChange} value={username}/>
+                    <input type="text" id="username" name="username" onChange={this.onUsernameChange} value={username}/>
                     {usernameErrorP}
 
                     <label htmlFor="password">Create Password:</label>
-                    <input type="password" name="password" onChange={this.onPasswordChange} value={password} autoComplete="off"/>
+                    <input type="password" id="password" name="password" onChange={this.onPasswordChange} value={password} autoComplete="off"/>
                     {passwordErrorP}
 
                     <label htmlFor="confirmPassword">Confrim Password:</label>
-                    <input type="password" name="confirmPassword" onChange={this.onConfirmPasswordChange} value={confirmPassword} autoComplete="off"/>
+                    <input type="password" id="confirmPassword" name="confirmPassword" onChange={this.onConfirmPasswordChange} value={confirmPassword} autoComplete="off"/>
                     {confirmPasswordErrorP}
 
                     {button}
@@ -124,6 +133,7 @@ RegisterForm.propTypes = {
 
 const mapStateToProps = state => ({
     registerError: state.register.registerError,
+    registering: state.register.registering,
     registered: state.register.registered
 });
 

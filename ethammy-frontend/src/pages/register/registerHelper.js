@@ -1,4 +1,4 @@
- export const BLANK =  'BLANK', ERROR = 'ERROR', ACCEPTED = 'ACCEPTED';
+import { BLANK, ACCEPTED, ERROR } from '../../constants/register';
 
 const CheckName = (name) => {
     if(name === '') return BLANK;

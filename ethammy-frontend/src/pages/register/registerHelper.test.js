@@ -1,5 +1,5 @@
 import Validate from './registerHelper.js';
-import { BLANK, ACCEPTED, ERROR } from './registerHelper.js';
+import { BLANK, ACCEPTED, ERROR } from '../../constants/register.js';
 
 describe('Name tests', () => {
     test('Numbers', () => {
