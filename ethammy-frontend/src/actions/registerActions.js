@@ -1,15 +1,15 @@
 import { registerTypes } from './types';
-import { HashPassword } from '../helpers/passwordHash.js';
+import { hashPassword } from '../helpers/passwordHash.js';
 import { APIRegister } from '../helpers/api';
 
-export const RegisterUser = (details) => dispatch => {
+export const registerUser = (details) => dispatch => {
     dispatch({
         type: registerTypes.REGISTER_REGISTERING,
         payload: true
     })
     let registrationDetails = {
         ...details,
-        password: HashPassword(details.password)
+        password: hashPassword(details.password)
     }
     return APIRegister(registrationDetails)
     .then(data => {

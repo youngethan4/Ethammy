@@ -5,10 +5,11 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux'
 import rootReducer from './reducers/registerReducer';
+import { Router } from "react-router-dom";
 
 const middleware = [thunk];
 
-function render(ui, {
+function render(ui, history, {
     initialState,
     store = createStore(rootReducer, initialState, compose(
       applyMiddleware(...middleware)
@@ -17,7 +18,11 @@ function render(ui, {
   } = {}
 ){
   function Wrapper({ children }) {
-    return <Provider store={store}>{children}</Provider>
+    return (<Provider store={store}>
+      <Router history={history}>
+        {children}
+      </Router>
+    </Provider>)
   }
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions })
 }

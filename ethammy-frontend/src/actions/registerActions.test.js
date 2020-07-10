@@ -1,6 +1,6 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { RegisterUser } from './registerActions';
+import { registerUser } from './registerActions';
 import { registerTypes } from './types';
 
 const middleware = [thunk];
@@ -44,7 +44,7 @@ describe('Register actions tests', () => {
             payload: true
         }];
 
-        return store.dispatch(RegisterUser(mockRegistration)).then(() => {
+        return store.dispatch(registerUser(mockRegistration)).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
@@ -52,7 +52,7 @@ describe('Register actions tests', () => {
     it('Creates REGISTER_ERROR action when success = false', () => {
         fetch.once(JSON.stringify({status: 400}));
 
-        return store.dispatch(RegisterUser(mockRegistration)).then(() => {
+        return store.dispatch(registerUser(mockRegistration)).then(() => {
             expect(store.getActions()).toEqual(errorActions);
         });
     });
@@ -60,7 +60,7 @@ describe('Register actions tests', () => {
     it('Creates REGISTER_ERROR action when rejected', () => {
         fetch.mockRejectOnce(JSON.stringify({status: 200}));
 
-        return store.dispatch(RegisterUser(mockRegistration)).then(() => {
+        return store.dispatch(registerUser(mockRegistration)).then(() => {
             expect(store.getActions()).toEqual(errorActions);
         });
     });
@@ -68,7 +68,7 @@ describe('Register actions tests', () => {
     it('Creates REGISTER_ERROR action when aborted', () => {
         fetch.mockAbortOnce();
 
-        return store.dispatch(RegisterUser(mockRegistration)).then(() => {
+        return store.dispatch(registerUser(mockRegistration)).then(() => {
             expect(store.getActions()).toEqual(errorActions);
         });
     });

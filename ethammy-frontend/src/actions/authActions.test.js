@@ -1,6 +1,6 @@
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { AuthUser } from './authActions';
+import { authUser } from './authActions';
 import { authTypes } from './types';
 
 const middleware = [thunk];
@@ -62,7 +62,7 @@ describe('Register actions tests', () => {
             }
         }];
 
-        return store.dispatch(AuthUser(mockAuth)).then(() => {
+        return store.dispatch(authUser(mockAuth)).then(() => {
             expect(store.getActions()).toEqual(expectedActions);
         });
     });
@@ -70,7 +70,7 @@ describe('Register actions tests', () => {
     it('Creates AUTH_ERROR action when error = true', () => {
         fetch.once(JSON.stringify({...mockAuthResponse, status: 400}));
 
-        return store.dispatch(AuthUser(mockAuth)).then(() => {
+        return store.dispatch(authUser(mockAuth)).then(() => {
             expect(store.getActions()).toEqual(errorActions);
         });
     });
@@ -78,7 +78,7 @@ describe('Register actions tests', () => {
     it('Creates AUTH_ERROR action when rejected', () => {
         fetch.mockRejectOnce(JSON.stringify({mockAuthResponse}));
 
-        return store.dispatch(AuthUser(mockAuth)).then(() => {
+        return store.dispatch(authUser(mockAuth)).then(() => {
             expect(store.getActions()).toEqual(errorActions);
         });
     });
@@ -86,7 +86,7 @@ describe('Register actions tests', () => {
     it('Creates AUTH_ERROR action when aborted', () => {
         fetch.mockAbortOnce();
 
-        return store.dispatch(AuthUser(mockAuth)).then(() => {
+        return store.dispatch(authUser(mockAuth)).then(() => {
             expect(store.getActions()).toEqual(errorActions);
         });
     });

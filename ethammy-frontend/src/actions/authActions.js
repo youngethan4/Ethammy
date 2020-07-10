@@ -1,8 +1,8 @@
 import { authTypes } from './types';
-import { HashPassword } from '../helpers/passwordHash'
+import { hashPassword } from '../helpers/passwordHash'
 import { APIAuth } from '../helpers/api'
 
-export const AuthUser = (email, password) => dispatch => {
+export const authUser = (email, password) => dispatch => {
   dispatch({
     type: authTypes.AUTH_AUTHENTICATING,
     payload: true
@@ -10,7 +10,7 @@ export const AuthUser = (email, password) => dispatch => {
 
   const credentials = {
     email: email,
-    password: HashPassword(password)
+    password: hashPassword(password)
   }
   
   return APIAuth(credentials)

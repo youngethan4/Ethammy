@@ -15,8 +15,10 @@
         text-align: center;
         border-radius: 10px;
         font-size: $formFont;
-        display: grid;
-        grid-template-columns: 40% auto;
+        
+        fieldset{
+            width: 100%;
+        }
     
         input{
             border-bottom: 2px solid $primaryColor;
@@ -28,7 +30,6 @@
             margin-top: 10px;
             margin-bottom: 5px;
             font-size: $formFont;
-            grid-column: 2;
             &:focus{
                 outline: none;
                 border-bottom: 2px solid #cb2af3;
@@ -42,7 +43,6 @@
             color: $errorColor;
             font-size: $errorFont;
             font-weight: normal;
-            grid-column: 1/-1;
         }
         button{
             text-decoration: none;
@@ -55,8 +55,6 @@
             width: 60%;
             font-size: 1.5rem;
             border: 2px solid $primaryColor;
-            grid-column: 1/-1;
-            justify-self: center;
             &:hover{
                 cursor: pointer;
                 background-color: rgba(0, 0, 0, 0.1);
@@ -73,7 +71,6 @@
             margin-top: 10px;
             margin-left: 10px;
             margin-right: 10px;
-            grid-column: 1;
         }
     }
 }
