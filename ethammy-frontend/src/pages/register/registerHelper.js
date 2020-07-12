@@ -1,25 +1,25 @@
- export const BLANK =  'BLANK', ERROR = 'ERROR', ACCEPTED = 'ACCEPTED';
+import { BLANK, ACCEPTED, ERROR } from '../../constants/register';
 
-const CheckName = (name) => {
+const checkName = (name) => {
     if(name === '') return BLANK;
     else if(!/[^a-z| ]+/i.test(name)) return ACCEPTED;
     return ERROR;
 
 }
 
-const CheckEmail = (email) => {
+const checkEmail = (email) => {
     if(email === '') return BLANK;
     if(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) return ACCEPTED;
     return ERROR;
 }
 
-const CheckUsername = (username) => {
+const checkUsername = (username) => {
     if(username === '') return BLANK;
     else if(!/[^a-z|0-9]+/i.test(username)) return ACCEPTED;
     return ERROR;
 }
 
-const CheckPassword = (password) => {
+const checkPassword = (password) => {
     let charTypes = false;
     let lowerCase = /[a-z]/.test(password);
     let upperCase = /[A-Z]/.test(password);
@@ -37,10 +37,10 @@ const CheckPassword = (password) => {
     return ERROR;
 }
 
-const MatchPasswords = (password, confirmPassword) => {
+const matchPasswords = (password, confirmPassword) => {
     if(confirmPassword === '') return BLANK;
     else if (password === confirmPassword) return ACCEPTED;
     else return ERROR;
 }
 
-export default {CheckName, CheckEmail, CheckUsername, CheckPassword, MatchPasswords}
+export default {checkName, checkEmail, checkUsername, checkPassword, matchPasswords}

@@ -1,10 +1,14 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom';
 import LoginForm from './login.js';
 
 const Login = () => {
+    let history = useHistory();
+
     return (
         <div>
-            <LoginForm />
+            <p>Login to your account.</p>
+            <LoginForm history={history}/>
         </div>
     )
 }
