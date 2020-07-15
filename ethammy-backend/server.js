@@ -1,15 +1,20 @@
-const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+
 const app = express();
+var server = require('http').createServer(app);
 const port = 3000;
 
+app.use(bodyParser.json());
+app.use(cors());
+
 //Color log variables
-const color = require('./exports/clog.js');
-const clog = color.clog;
+import { clog as _clog, blue } from './exports/clog.js';
+const clog = _clog;
 
-const profileRoute = require('./routes/profile.js');
+import { router } from './routes';
+router(app);
 
-app.post("/api/auth", (req, res) => profileRoute.loginAuth(req, res));
-app.post("/api/register", (req, res) => profileRoute.register(req, res));
-
-app.listen(port);
-clog('Server started listening on '+port+' for requests.',color.blue);
+server.listen(port);
+clog('Server started listening on '+port+' for requests.',blue);
