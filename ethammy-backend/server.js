@@ -17,4 +17,4 @@ import { router } from './routes';
 router(app);
 
 server.listen(port);
-clog('Server started listening on '+port+' for requests.',blue);
+clog('Server started listening on ' + port + ' for requests.', blue);

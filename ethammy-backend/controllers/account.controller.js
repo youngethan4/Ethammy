@@ -4,16 +4,16 @@ const login = async (req, res) => {
   try {
     let payload = await AccountStore.login(req);
     res.status(200).send(payload);
-  } catch(exception) {
+  } catch (exception) {
     res.status(500).send(exception);
   }
 }
 
-const register = (req, res) => {
+const register = async (req, res) => {
   try {
     let payload = await AccountStore.register(req);
-    res.status(200).send(payload);
-  } catch(exception) {
+    res.status(payload.status).send(payload);
+  } catch (exception) {
     res.status(500).send(exception);
   }
 }

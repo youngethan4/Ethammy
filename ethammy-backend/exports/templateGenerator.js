@@ -2,7 +2,7 @@ const templates = require('./responseTemplate.js');
 
 const generateUserJSON = function(accountInfo){
   var user = templates.userTemplate;
-  user.uuid = accountInfo.uuid;
+  user.id = accountInfo.uuid;
   user.email = accountInfo.email;
   user.username = accountInfo.username;
   user.discriminator = accountInfo.discriminator;

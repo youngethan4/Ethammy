@@ -10,15 +10,12 @@ const responseTemplate = {
 };
 
 const userTemplate = {
-  uuid : '',
-  email : '',
+  id : '',
   username : '',
-  discriminator : '',
-  dob : '',
-  status : ''
+  discriminator : ''
 };
 
 module.exports = {
-  response : responseTemplate,
-  user : userTemplate
+  response : new responseTemplate,
+  user : new userTemplate
 }
