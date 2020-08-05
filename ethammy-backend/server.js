@@ -1,20 +1,20 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import http from 'http';
 
 const app = express();
-var server = require('http').createServer(app);
+var server = http.createServer(app);
 const port = 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
 
 //Color log variables
-import { clog as _clog, blue } from './exports/clog.js';
-const clog = _clog;
+import clog from './util/clog.js';
 
-import { router } from './routes';
+import { router } from './routes/index.js';
 router(app);
 
 server.listen(port);
-clog('Server started listening on ' + port + ' for requests.', blue);
+clog.clog('Server started listening on ' + port + ' for requests.', clog.blue);

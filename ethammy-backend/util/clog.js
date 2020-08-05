@@ -1,6 +1,6 @@
 //node js consol color
 var reset = "\x1b[0m"
-module.exports = {
+export default {
 	reset : reset,
 	bright : "\x1b[1m",
 	dim : "\x1b[2m",

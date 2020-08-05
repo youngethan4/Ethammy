@@ -1,99 +1,86 @@
-import dbCon from "../exports/dbAccess";
+import responseTemplate from "../util/responseTemplate.js";
+import statusCode from "../constants/httpSatusCodes.js";
+import AccountModel from "../models/account.model.js";
 
-const login = (req) => {
+const login = async (req) => {
+  let reqBody = req.body;
+  let account;
+  try {
+    account = await AccountModel.checkUserLogin(reqBody);
+  } catch (err) {
+    throw err;
+  }
+  if (account.length != 1) {
+    let errorMessage = "Login failed.";
+    let errorDescription = "Login attempted with invalid credentials.";
+    return {
+      status: statusCode.notFound,
+      res: new responseTemplate.error(errorMessage, errorDescription),
+    };
+  } else {
+    return {
+      status: statusCode.ok,
+      res: account,
+    };
+  }
+};
+
+const register = async (req) => {
   let reqBody = req.body;
   let email = reqBody.email;
-  let password = reqBody.password;
-  let sqlCondition = "email = " + email + " AND password = " + password;
-
-  new Promise(dbCon.dbSelect("Profiles", ["*"], sqlCondition))
-    .then((account) => {
-      if (account.length != 1) {
-        var response = templateGenerator.fillResponseData(
-          "/api/auth",
-          undefined
-        );
-        response.status = 400;
-        response.error = {
-          type: "Invalid Account Info",
-          message:
-            "Unable to locate the requested account with the supplied information",
-        };
-        return response;
-      } else {
-        var user = templateGenerator.fillUserData(account[0]);
-        var response = templateGenerator.fillResponseData("/api/auth", user);
-        return response;
-      }
-    })
-    .catch((err) => {
-      throw err;
-    });
+  let username = reqBody.username;
+  try {
+    let emailExists = await AccountModel.checkEmail(email);
+    if (emailExists > 0) {
+      let errorMessage = "Email already associated to an account";
+      let errorDescription = "The email provided has an account linked to it.";
+      return {
+        status: statusCode.forbidden,
+        res: new responseTemplate.error(errorMessage, errorDescription),
+      };
+    }
+    let matchedUsernameDiscriminators = await AccountModel.getMatchingUsernameDiscriminators(
+      username
+    );
+    let discriminator = generateDisriminator(matchedUsernameDiscriminators);
+    await AccountModel.addUser(reqBody, discriminator);
+    return {
+      status: statusCode.created,
+      res: {},
+    };
+  } catch (err) {
+    throw err;
+  }
 };
 
-const register = (req) => {
-  var reqBody = req.body;
-  (new Promise(checkEmailExsits))
-    .then((exist) => {
-        if(exist == 1){
-            var response = templateGenerator.fillResponseData(
-                "/api/register",
-                undefined
-              );
-              response.status = 400;
-              response.error = {
-                type: "Account already registered",
-                message: "The email used has already been registered to an account.",
-              };
-              return response;
-        }
-    })
-    .then(generateDisriminator)
-  if (emailAccountCheck.length >= 0) {
-    
+const remove = async (id) => {
+  try {
+    await AccountModel.deleteUser(id);
+    return {
+      status: statusCode.ok,
+      res: {},
+    };
+  } catch (err) {
+    throw err;
   }
+};
 
-  var invalidDiscriminators = dbCon.dbSelect(
-    "Profiles",
-    ["discriminator"],
-    "username = " + reqBody.username
-  );
-  var discrim = Math.floor(Math.random() * 10000);
+const generateDisriminator = (invalidDiscriminators) => {
+  let discrim = Math.floor(Math.random() * 10000);
+  let isUnique = false;
   do {
     discrim = (discrim + 1) % 10000;
-    var shouldBreak = true;
+    let foundDuplicate = false;
     for (var i = 0; i < invalidDiscriminators.length; i++)
       if (discrim == invalidDiscriminators[i].discriminator)
-        shouldBreak = false;
-    if (shouldBreak) break;
-  } while (true);
-  var values = [
-    reqBody.email,
-    reqBody.password,
-    reqBody.username,
-    discrim,
-    new Date()
-  ];
-  var columns = ["email", "password", "username", "discriminator", "joined"];
-  dbCon.dbInsert("users", columns, values);
-  var response = templateGenerator.fillResponseData("/api/register", undefined);
-  response.status = 204;
-  res.json(response);
+        foundDuplicate = true;
+    if (!foundDuplicate) isUnique = true;
+  } while (!isUnique);
+  return discrim;
 };
 
-const checkEmailExsits = (email) => {
-    return dbCon.dbCount(
-        "users",
-        "email",
-        "email = " + email
-    );
-}
-
-generateDisriminator = (invalidDiscriminators) => {
-
-}
-
-module.exports = {
+export default {
   login,
   register,
+  remove,
 };
