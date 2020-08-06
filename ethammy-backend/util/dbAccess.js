@@ -11,7 +11,7 @@ export const query = (sql) => {
     try {
       pool.query(sql, (err, result) => {
         if (err) throw err;
-        resolve(result);
+        resolve(JSON.parse(JSON.stringify(result)));
       });
     } catch(err){
       throw err;

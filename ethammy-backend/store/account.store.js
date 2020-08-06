@@ -20,7 +20,7 @@ const login = async (req) => {
   } else {
     return {
       status: statusCode.ok,
-      res: account,
+      res: account[0],
     };
   }
 };

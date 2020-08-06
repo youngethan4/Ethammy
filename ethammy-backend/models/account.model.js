@@ -1,11 +1,15 @@
 import { query } from "../util/dbAccess.js";
+import clog from "../util/clog.js";
 
 const usersTable = "users";
 
 const checkEmail = async (email) => {
   const sql = `SELECT COUNT(email) FROM ${usersTable} WHERE email = '${email}'`;
   try {
-    return await query(sql);
+    initiateQueryLog(sql);
+    let queryResponse = await query(sql);
+    querySuccessLog();
+    return queryResponse;
   } catch (err) {
     throw err;
   }
@@ -14,7 +18,10 @@ const checkEmail = async (email) => {
 const getMatchingUsernameDiscriminators = async (username) => {
   const sql = `SELECT discriminator FROM ${usersTable} WHERE username = '${username}'`;
   try {
-    return await query(sql);
+    initiateQueryLog(sql);
+    let queryResponse = await query(sql);
+    querySuccessLog();
+    return queryResponse;
   } catch (err) {
     throw err;
   }
@@ -27,12 +34,14 @@ const addUser = async (body, discriminator) => {
   const password = body.password;
   const date = new Date();
   const joined = date.toISOString().slice(0, 19).replace('T', ' ');
-  console.log(joined);
   const sql =
     `INSERT INTO ${usersTable} (name, username, email, password, discriminator, timeJoined) ` +
     `VALUES ('${name}', '${username}', '${email}', '${password}', ${discriminator}, '${joined}')`;
   try {
-    return await query(sql);
+    initiateQueryLog(sql);
+    let queryResponse = await query(sql);
+    querySuccessLog();
+    return queryResponse;
   } catch (err) {
     throw err;
   }
@@ -45,7 +54,10 @@ const checkUserLogin = async (body) => {
     `SELECT id, name, username, email FROM ${usersTable} ` +
     `WHERE email = '${email}' AND password = '${password}'`;
   try {
-    return await query(sql);
+    initiateQueryLog(sql);
+    let queryResponse = await query(sql);
+    querySuccessLog();
+    return queryResponse;
   } catch (err) {
     throw err;
   }
@@ -53,7 +65,10 @@ const checkUserLogin = async (body) => {
 
 const updateUser = async (body) => {
   try {
-    return await query(sql);
+    initiateQueryLog(sql);
+    let queryResponse = await query(sql);
+    querySuccessLog();
+    return queryResponse;
   } catch (err) {
     throw err;
   }
@@ -62,11 +77,22 @@ const updateUser = async (body) => {
 const deleteUser = async (id) => {
   const sql = `DELETE FROM ${usersTable} WHERE id = ${id}`;
   try {
-    return await query(sql);
+    initiateQueryLog(sql);
+    let queryResponse = await query(sql);
+    querySuccessLog();
+    return queryResponse;
   } catch (err) {
     throw err;
   }
 };
+
+const initiateQueryLog = (sql) => {
+  clog.clog(`Initiating query => ${sql}`, clog.yellow);
+}
+
+const querySuccessLog = () => {
+  clog.clog('Query successful', clog.green);
+}
 
 export default {
   checkEmail,
