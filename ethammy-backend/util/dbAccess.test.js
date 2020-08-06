@@ -11,6 +11,7 @@ describe('simple database tests', () => {
             console.error(err);
             error = true;
         }
+        debugger;
         expect(error).toEqual(false);
     });
 });

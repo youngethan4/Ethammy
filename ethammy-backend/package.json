@@ -9,7 +9,7 @@
     "testEnvironment": "jest-environment-jsdom-sixteen"
   },
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --experimental-vm-modules --inspect node_modules/jest/bin/jest.js",
     "start": "node server.js"
   },
   "author": "",
