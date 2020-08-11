@@ -4,12 +4,12 @@ import clog from "../util/clog.js";
 const usersTable = "users";
 
 const checkEmail = async (email) => {
-  const sql = `SELECT COUNT(email) FROM ${usersTable} WHERE email = '${email}'`;
+  const sql = `SELECT COUNT(*) AS emailCount FROM ${usersTable} WHERE email = '${email}'`;
   try {
     initiateQueryLog(sql);
     let queryResponse = await query(sql);
     querySuccessLog();
-    return queryResponse;
+    return queryResponse[0];
   } catch (err) {
     throw err;
   }
@@ -51,7 +51,7 @@ const checkUserLogin = async (body) => {
   const email = body.email;
   const password = body.password;
   const sql =
-    `SELECT id, name, username, email FROM ${usersTable} ` +
+    `SELECT id, name, username, email, discriminator FROM ${usersTable} ` +
     `WHERE email = '${email}' AND password = '${password}'`;
   try {
     initiateQueryLog(sql);

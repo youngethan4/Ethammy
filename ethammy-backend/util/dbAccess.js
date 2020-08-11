@@ -1,20 +1,23 @@
 //Database connection info
 import { connection } from "./dbConnect.js";
 import mysql from "mysql";
-const pool = mysql.createPool(connection);
+export const pool = mysql.createPool(connection);
 
 //Color log variables
 import clog from "./clog.js";
 
 export const query = (sql) => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     try {
-      pool.query(sql, (err, result) => {
-        if (err) throw err;
-        resolve(JSON.parse(JSON.stringify(result)));
+      pool.query(sql, (err, result, rows) => {
+        if (err) {
+          return reject(err);
+        }
+        console.log(result);
+        return resolve(JSON.parse(JSON.stringify(result)));
       });
-    } catch(err){
+    } catch (err) {
       throw err;
     }
   });
-}
+};

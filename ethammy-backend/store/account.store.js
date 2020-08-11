@@ -31,7 +31,8 @@ const register = async (req) => {
   let username = reqBody.username;
   try {
     let emailExists = await AccountModel.checkEmail(email);
-    if (emailExists > 0) {
+    console.log(emailExists);
+    if (emailExists.emailCount > 0) {
       let errorMessage = "Email already associated to an account";
       let errorDescription = "The email provided has an account linked to it.";
       return {
