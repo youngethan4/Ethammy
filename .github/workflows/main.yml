@@ -27,13 +27,13 @@ jobs:
         npm install
         
   frontend-test:
-    runs-on: ubutu-latest
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       
-      - name: run tests
-        run: |
-          cd ethammy-frontend/
-          npm install
-          npm test
-          npm run build
+    - name: run tests
+      run: |
+        cd ethammy-frontend/
+        npm install
+        npm test
+        npm run build
