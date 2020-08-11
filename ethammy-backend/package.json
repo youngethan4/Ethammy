@@ -1,0 +1,27 @@
+{
+  "name": "ethammy-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "jest": {
+    "transform": {},
+    "testEnvironment": "jest-environment-jsdom-sixteen"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3"
+  }
+}
