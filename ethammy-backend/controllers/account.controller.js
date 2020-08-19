@@ -12,27 +12,27 @@ const getServerErrorResponse = () => {
 const login = async (req, res) => {
   try {
     let payload = await AccountStore.login(req);
-    res.status(payload.status).send(JSON.stringify(payload.res));
+    res.status(payload.status).json(payload.res);
   } catch (exception) {
-    res.status(statusCode.serverError).send(getServerErrorResponse());
+    res.status(statusCode.serverError).json(getServerErrorResponse());
   }
 };
 
 const register = async (req, res) => {
   try {
     let payload = await AccountStore.register(req);
-    res.status(payload.status).send(JSON.stringify(payload.res));
+    res.status(payload.status).json(payload.res);
   } catch (exception) {
-    res.status(statusCode.serverError).send(getServerErrorResponse());
+    res.status(statusCode.serverError).json(getServerErrorResponse());
   }
 };
 
 const remove = async (req, res) => {
   try {
     let payload = await AccountStore.remove(req.params.id);
-    res.status(payload.status).send(JSON.stringify(payload.res));
+    res.status(payload.status).json(payload.res);
   } catch (exception) {
-    res.status(statusCode.serverError).send(getServerErrorResponse());
+    res.status(statusCode.serverError).json(getServerErrorResponse());
   }
 };
 

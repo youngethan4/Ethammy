@@ -13,7 +13,6 @@ export const query = (sql) => {
         if (err) {
           return reject(err);
         }
-        console.log(result);
         return resolve(JSON.parse(JSON.stringify(result)));
       });
     } catch (err) {
