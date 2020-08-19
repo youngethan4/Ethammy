@@ -1,35 +1,35 @@
-import { authTypes } from './types';
-import { hashPassword } from '../helpers/passwordHash'
-import { APIAuth } from '../helpers/api'
+import { authTypes } from "./types";
+import { hashPassword } from "../helpers/passwordHash";
+import { APIAuth } from "../helpers/api";
 
-export const authUser = (email, password) => dispatch => {
+export const authUser = (email, password) => async (dispatch) => {
   dispatch({
     type: authTypes.AUTH_AUTHENTICATING,
-    payload: true
-  })
+    payload: true,
+  });
 
   const credentials = {
     email: email,
-    password: hashPassword(password)
-  }
-  
-  return APIAuth(credentials)
-  .then(res => {
-    if(res.status === 200){
+    password: hashPassword(password),
+  };
+
+  try {
+    const res = await APIAuth(credentials);
+    const data = await res.json();
+    if (res.status === 200) {
       dispatch({
         type: authTypes.AUTH_SUCCESS,
         payload: true,
-        user : res.data
+        user: data,
       });
-      localStorage.setItem('user', JSON.stringify(res.data));
+      localStorage.setItem("user", JSON.stringify(data));
     } else {
       throw new Error();
     }
-  })
-  .catch((error) => {
+  } catch (error) {
     dispatch({
       type: authTypes.AUTH_ERROR,
-      payload: "Invalid email or password."
+      payload: "Invalid email or password.",
     });
-  });
-}
+  }
+};
